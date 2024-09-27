@@ -1,18 +1,13 @@
 const { invoke } = window.__TAURI__.core;
+import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow';
 
-let greetInputEl;
-let greetMsgEl;
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  greetMsgEl.textContent = await invoke("greet", { name: greetInputEl.value });
-}
+let fanyiMsgEl;
 
 window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
+  fanyiMsgEl = document.querySelector("#fanyi-msg");
+  fanyiMsgEl.textContent = getCurrentWebviewWindow().id;
+  const appWebview = getCurrentWebviewWindow();
+    appWebview.listen<string>('fanyi', (event) => {
+    fanyiMsgEl.textContent = event.payload;
   });
 });

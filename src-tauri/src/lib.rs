@@ -3,6 +3,7 @@ use std::thread;
 use rdev::{listen, Event, EventType, Key};
 use clippers::Clipboard;
 use serde::{Serialize, Deserialize};
+use tauri::{AppHandle, Emitter, Manager};
 
 static mut KEY_STORE:KeyStore = KeyStore{
     current_key : Key::KeyA,
@@ -78,6 +79,7 @@ fn translate() {
                 Ok(res) => {
                     //println!("res: {}", res.text().unwrap());
                     let result = res.json::<DeepLResponse>().unwrap();
+                    send_text(result.translations[0].text);
                     println!("result: {}", result.translations[0].text);
                 },
                 Err(err) => {
@@ -139,4 +141,9 @@ impl KeyStore {
         self.privious_key = Key::KeyA;
         self.current_key = Key::KeyA;
     }
+}
+
+#[tauri::command]
+fn send_text(app: AppHandle, text: String) {
+    app.emit_to("fanyi", "main", text).unwrap();
 }

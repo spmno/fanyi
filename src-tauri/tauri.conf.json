@@ -10,8 +10,8 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "tauri-test",
-        "width": 800,
+        "title": "main",
+        "width": 400,
         "height": 600
       }
     ],
