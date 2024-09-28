@@ -10,6 +10,7 @@ static mut KEY_STORE:KeyStore = KeyStore{
     privious_key : Key::KeyA
 };
 
+
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
@@ -19,6 +20,9 @@ fn greet(name: &str) -> String {
 pub fn run() {
     init_event_thread();
     tauri::Builder::default()
+        .setup(|app|{
+            Ok(())
+        })
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
@@ -79,7 +83,7 @@ fn translate() {
                 Ok(res) => {
                     //println!("res: {}", res.text().unwrap());
                     let result = res.json::<DeepLResponse>().unwrap();
-                    send_text(result.translations[0].text);
+                    //send_text(result.translations[0].text);
                     println!("result: {}", result.translations[0].text);
                 },
                 Err(err) => {
