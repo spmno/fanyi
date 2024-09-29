@@ -26,8 +26,8 @@ pub fn run() {
         .setup(|app|{
             #[cfg(debug_assertions)] // 仅在调试构建时包含此代码
             {
-                let window = app.get_webview_window("main").unwrap();
-                window.open_devtools();
+                //let window = app.get_webview_window("main").unwrap();
+                //window.open_devtools();
                 //window.close_devtools();
             }
             GLOBAL_APP_HANDLE.set(app.handle().clone()).expect("Failed to set global app handle");
@@ -159,8 +159,8 @@ impl KeyStore {
 
 #[tauri::command]
 fn send_text(app: AppHandle, text: String) {
-    let webview = app.get_webview_window("main").unwrap();
-    webview.eval("console.log('hello from Rust')").unwrap();
+    //let webview = app.get_webview_window("main").unwrap();
+    //webview.eval("console.log('hello from Rust')").unwrap();
     //app.emit_to("fanyi", "main", text).unwrap();
     app.emit_to("main", "fanyi", text).unwrap();
 }
