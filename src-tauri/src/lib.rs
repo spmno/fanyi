@@ -4,6 +4,9 @@ use rdev::{listen, Event, EventType, Key};
 use clippers::Clipboard;
 use serde::{Serialize, Deserialize};
 use tauri::{AppHandle, Emitter, Manager};
+use std::sync::OnceLock;
+
+static GLOBAL_APP_HANDLE: OnceLock<AppHandle> = OnceLock::new();
 
 static mut KEY_STORE:KeyStore = KeyStore{
     current_key : Key::KeyA,
@@ -21,6 +24,13 @@ pub fn run() {
     init_event_thread();
     tauri::Builder::default()
         .setup(|app|{
+            #[cfg(debug_assertions)] // 仅在调试构建时包含此代码
+            {
+                let window = app.get_webview_window("main").unwrap();
+                window.open_devtools();
+                //window.close_devtools();
+            }
+            GLOBAL_APP_HANDLE.set(app.handle().clone()).expect("Failed to set global app handle");
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())
@@ -83,7 +93,7 @@ fn translate() {
                 Ok(res) => {
                     //println!("res: {}", res.text().unwrap());
                     let result = res.json::<DeepLResponse>().unwrap();
-                    //send_text(result.translations[0].text);
+                    send_text(GLOBAL_APP_HANDLE.get().unwrap().clone(), result.translations[0].text.clone());
                     println!("result: {}", result.translations[0].text);
                 },
                 Err(err) => {
@@ -149,5 +159,8 @@ impl KeyStore {
 
 #[tauri::command]
 fn send_text(app: AppHandle, text: String) {
-    app.emit_to("fanyi", "main", text).unwrap();
+    let webview = app.get_webview_window("main").unwrap();
+    webview.eval("console.log('hello from Rust')").unwrap();
+    //app.emit_to("fanyi", "main", text).unwrap();
+    app.emit_to("main", "fanyi", text).unwrap();
 }
