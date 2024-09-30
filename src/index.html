@@ -3,13 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="bulma.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fanyi App</title>
+    <script src="jquery.min.js"></script>
     <script type="module" src="/main.js" defer></script>
   </head>
 
   <body>
     <div class="container">
+      <div class="loader-wrapper">
+        <div class="loader is-loading"></div>
+      </div>
       <p id="fanyi-msg"></p>
     </div>
   </body>

@@ -17,52 +17,44 @@
 
 .container {
   margin: 0;
-  padding-top: 10vh;
+  padding-top: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
 }
 
-.row {
+.loader-wrapper {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color:transparent;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity .3s;
   display: flex;
   justify-content: center;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  text-align: center;
-}
-
-#greet-input {
-  margin-right: 5px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+  align-items: center;
+  border-radius: 6px;
+  
+  .loader {
+    height: 80px;
+    width: 80px;
   }
+  
+  &.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+}
 
-  a:hover {
-    color: #24c8db;
-  }
+.is-loading {
+  position: relative;
+}
 
-  input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
-  }
-  button:active {
-    background-color: #0f0f0f69;
-  }
+#fanyi-msg {
+  position: relative;
+  top: 100px;
 }

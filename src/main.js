@@ -9,7 +9,15 @@ window.addEventListener("DOMContentLoaded", () => {
   const appWebview = getCurrentWebviewWindow();
   console.log("appWebview"+appWebview);
   appWebview.listen('fanyi', (event) => {
-      console.log("event comming.");
+      console.log("fanyi event comming.");
+      $('.loader-wrapper').removeClass('is-active');
       fanyiMsgEl.textContent = event.payload;
   });
+  appWebview.listen('start', (event) => {
+    console.log("start event comming.");
+    $('.loader-wrapper').addClass('is-active');
+    //setTimeout(() => {
+    //  $('.loader-wrapper').removeClass('is-active')
+    //}, 5000)
+});
 });

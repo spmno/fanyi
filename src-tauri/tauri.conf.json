@@ -10,7 +10,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "main",
+        "title": "翻译",
         "width": 400,
         "height": 600
       }
